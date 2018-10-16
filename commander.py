@@ -65,6 +65,7 @@ if __name__ == "__main__":
     # container = WSGIContainer(app)
     server = Application(
         EchoRouter.urls+[(r'/sndcommand/(.*)',SendCommand), (r'/',MainHandler)], static_path=os.path.join(root,'static'), template_path=os.path.join(root,'templates'))
-    server.listen(8080)
+    port = int(os.environ.get("PORT", 8080))
+    server.listen(port)
     IOLoop.instance().start()
 
