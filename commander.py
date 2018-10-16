@@ -7,7 +7,6 @@ from flask_cors import CORS, cross_origin
 from sockjs.tornado import SockJSRouter, SockJSConnection
 import json
 
-import Settings
 import tornado.web
 import tornado.httpserver
 
