@@ -4,7 +4,7 @@ from tornado.ioloop import IOLoop
 from tornado.websocket import WebSocketHandler
 from sockjs.tornado import SockJSRouter, SockJSConnection
 from admin_service import SightWordHandler
-
+from google_assistant_services import GAActionHandler
 import json
 
 import tornado.web
@@ -26,7 +26,8 @@ def main():
     server = Application(
         EchoRouter.urls+[(r'/sndcommand/(.*)',SendCommand), 
         (r'/',MainHandler),
-        (r'/sightwords/all', SightWordHandler)
+        (r'/sightwords/all', SightWordHandler),
+        (r'/gaservice/command', GAActionHandler)
         ], static_path=os.path.join(root,'static'), template_path=os.path.join(root,'templates')
 
     )
