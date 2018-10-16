@@ -10,7 +10,10 @@ flask = "*"
 tornado = "*"
 sockjs-tornado = "*"
 Flask-Cors = "*"
-sqlachemy = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
+requests = "*"
+pyaml = "*"
 
 [requires]
 
