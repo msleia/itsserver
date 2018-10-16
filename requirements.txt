@@ -1,0 +1,7 @@
+pandas
+flask
+flask_cors
+pyaml
+sqlalchemy
+psycopg2
+requests
