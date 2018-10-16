@@ -7,6 +7,19 @@ from flask_cors import CORS, cross_origin
 from sockjs.tornado import SockJSRouter, SockJSConnection
 import json
 
+import Settings
+import tornado.web
+import tornado.httpserver
+
+import os
+
+
+root = os.path.dirname(__file__)
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("index.html")
+
 class WebSocket(SockJSConnection):
     clients = []
     def on_open(self, info):
@@ -34,6 +47,10 @@ class SendCommand(RequestHandler):
         print ("Command received {}".format(data))
         WebSocket.clients[0].broadcast(WebSocket.clients,{"command":data})
 
+class SendCommand(RequestHandler):
+    def get(self, data):
+        print ("Command received {}".format(data))
+        WebSocket.clients[0].broadcast(WebSocket.clients,{"command":data})
 
 # app = Flask(__name__)
 # cors = CORS(app, resources={r"/command": {"origins": "*"}})
@@ -48,7 +65,7 @@ if __name__ == "__main__":
     # print (EchoRouter.urls)
     # container = WSGIContainer(app)
     server = Application(
-        EchoRouter.urls+[(r'/sndcommand/(.*)',SendCommand)])
+        EchoRouter.urls+[(r'/sndcommand/(.*)',SendCommand), (r'/',MainHandler)], static_path=os.path.join(root,'static'), template_path=os.path.join(root,'templates'))
     server.listen(8080)
     IOLoop.instance().start()
 
