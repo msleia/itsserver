@@ -1,2 +1,2 @@
-web: python commander.py
+web: python main_service.py
 
