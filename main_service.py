@@ -26,7 +26,7 @@ def main():
     server = Application(
         EchoRouter.urls+[(r'/sndcommand/(.*)',SendCommand), 
         (r'/',MainHandler),
-        (r'/sightwords/all', SightWordHandler),
+        (r'/sightwords', SightWordHandler),
         (r'/gaservice/command', GAActionHandler)
         ], static_path=os.path.join(root,'static'), template_path=os.path.join(root,'templates')
 
