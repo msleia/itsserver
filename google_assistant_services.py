@@ -25,4 +25,6 @@ class GAActionHandler(RequestHandler):
         teacher_response = teacher.get_teacher(userid).teach(student_reponse)
         WebSocket.clients[0].broadcast(WebSocket.clients,{"command":teacher_response.question})
         print (teacher_response.__dict__)
-        self.write(GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response())
+        ga_payload = GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response()
+        print (ga_payload)
+        self.write(ga_payload)
