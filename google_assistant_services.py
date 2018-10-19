@@ -19,9 +19,9 @@ class GAActionHandler(RequestHandler):
         queryResult = data['queryResult']
         command = queryResult['parameters']['command']
         userid = queryResult['user']['userId']
-        # WebSocket.clients[0].broadcast(WebSocket.clients,{"command":command})
         student_reponse = StudentResponse(userid, command)
         print (student_reponse.__dict__)
         teacher_response = teacher.get_teacher(userid).teach(student_reponse)
+        WebSocket.clients[0].broadcast(WebSocket.clients,{"command":teacher_response.question})
         print (teacher_response.__dict__)
         self.write(teacher_response.__dict__)
