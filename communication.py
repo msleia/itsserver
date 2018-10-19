@@ -16,3 +16,30 @@ class StudentResponse():
 
 class StudentQuery():
     pass
+
+class GAResponse():
+    def __init__(self,speech, displayText):
+        self.speech = speech
+        self.displayText = displayText
+
+    def get_json_response(self):
+        res = {
+            "speech": self.speech,  
+            "displayText": self.displayText,
+            "data": {
+                "google": {
+                "expect_user_response": True,
+                "is_ssml": False,
+                "permissions_request": {
+                    "opt_context": "",
+                    "permissions": [
+                    
+                    ]
+                }
+                }
+            },
+            "contextOut": [],
+        }
+        return res
+
+
