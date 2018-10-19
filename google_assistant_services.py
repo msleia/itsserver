@@ -23,13 +23,13 @@ class GAActionHandler(RequestHandler):
         if 'queryResult' in data and 'parameters' in data['queryResult'] and 'command' in data['queryResult']['parameters']:
             queryResult = data['queryResult']
             command = queryResult['parameters']['command']
-            userid = data['originalDetectIntentRequest']['payload']['user']['userId']
+            # userid = data['originalDetectIntentRequest']['payload']['user']['userId']
         elif "queryResult" in data and "queryText" in data["queryResult"]:
             command = data["queryResult"]["queryText"]
-            userid = data["user"]["userId"]
         else:
             command = "Unknown"
-            userid = "Unknown"
+            # userid = "Unknown"
+        userid = data["originalDetectIntentRequest"]["payload"]["user"]["userId"]
         student_reponse = StudentResponse(userid, command)
         print (student_reponse.__dict__)
         teacher_response = teacher.get_teacher(userid).teach(student_reponse)
