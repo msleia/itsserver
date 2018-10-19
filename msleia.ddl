@@ -34,6 +34,6 @@ create table FC_REPORT (
     id SERIAL PRIMARY KEY,
     userid INTEGER,
     flash_card_id INTEGER,
-    last_accessed TIMESTAMP,
+    last_accessed TIMESTAMP DEFAULT NOW(),
     is_completed INTEGER
 );

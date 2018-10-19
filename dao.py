@@ -22,4 +22,10 @@ class DAO:
 
     def put(self, object):
         DAO.session.add(object)
+        DAO.session.flush()
+        DAO.session.refresh(object)
         DAO.session.commit()
+        return object
+
+    def execute_query(self, query):
+        return DAO.engine.execute(sy.text(query))
