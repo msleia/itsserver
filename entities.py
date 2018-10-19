@@ -10,7 +10,7 @@ class SIGHT_WORDS(Base):
 
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    userid = Column(Integer)
+    userid = Column(String)
     name = Column(String)
     type = Column(String)
     description = Column(String)
@@ -32,7 +32,7 @@ class FlashCard(Base):
 
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    userid = Column(Integer)
+    userid = Column(String)
     name = Column(String)
     description = Column(String)
 
@@ -51,7 +51,7 @@ class FlashCardSW(Base):
 
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    userid = Column(Integer)
+    userid = Column(String)
     flash_card_id = Column(Integer)
     sw_id = Column(Integer)
 
@@ -70,7 +70,7 @@ class WordReport(Base):
 
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    userid = Column(Integer)
+    userid = Column(String)
     sw_id = Column(Integer)
     is_identified = Column(Integer)
 
@@ -104,7 +104,7 @@ class FlashCardReport(Base):
 
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    userid = Column(Integer)
+    userid = Column(String)
     flash_card_id = Column(Integer)
     last_accessed = Column(DATETIME)
     is_completed = Column(Integer)
