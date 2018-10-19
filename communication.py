@@ -40,16 +40,33 @@ class GAResponse():
         #     },
         #     "contextOut": [],
         # }
+        # res = {
+        #     "speech": self.speech,  
+        #     "displayText": self.displayText,
+        #     "data": {
+        #         "google": {
+        #         "expect_user_response": True,
+        #         "is_ssml": False
+        #         }
+        #     },
+        #     "contextOut": [],
+        # }
+
         res = {
-            "speech": self.speech,  
-            "displayText": self.displayText,
-            "data": {
+            "payload": {
                 "google": {
-                "expect_user_response": True,
-                "is_ssml": False
+                "expectUserResponse": True,
+                "richResponse": {
+                    "items": [
+                    {
+                        "simpleResponse": {
+                            "textToSpeech": self.speech
+                        }
+                    }
+                    ]
                 }
-            },
-            "contextOut": [],
+                }
+            }
         }
         return res
 
