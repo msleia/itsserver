@@ -36,7 +36,7 @@ class SightWordCourse(Course):
         return self.flashcard[self.curr_word_index]
 
     def generate_flashcard(self, userid):
-        flash_card = dao_obj.get_where(FlashCardReport, "userid = {} and is_completed = {}".format(userid, 0))
+        flash_card = dao_obj.get_where(FlashCardReport, "userid = '{}' and is_completed = {}".format(userid, 0))
         # FlashCardSW
         selected_words = []
 
