@@ -43,12 +43,13 @@ class TeacherServiceHandler(RequestHandler):
             question = self.current_course.get_next_presentation(self.userid)
             response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_standard_query())
             self.questions.append(question)
-            if not self.three_incorrect_responses:
-                self.correct_answer_account[question] += 1
-                self.answer_correctness_sequence.append(1)
-            else:
-                self.incorrect_answer_account[question] += 1
-                self.answer_correctness_sequence.append(0)                
+            if len(self.answers) != 0:
+                if not self.three_incorrect_responses:
+                    self.correct_answer_account[question] += 1
+                    self.answer_correctness_sequence.append(1)
+                else:
+                    self.incorrect_answer_account[question] += 1
+                    self.answer_correctness_sequence.append(0)                
         else:
             response = TeacherResponse(self.userid, self.exercise, self.questions[-1], self.current_course.get_motivating_phrase())
             self.incorrect_answer_account[self.questions[-1]] += 1
