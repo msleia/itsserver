@@ -24,6 +24,10 @@ class TeacherServiceHandler(RequestHandler):
         self.answers = []
         self.exercise = ""
         self.current_course = None
+        self.correct_answer_account = defaultdict(int)
+        self.incorrect_answer_account = defaultdict(int)
+        self.answer_correctness_sequence = []
+        self.three_incorrect_responses = False
 
     def teach(self, student_response):
         if  self.userid == 0:
@@ -33,9 +37,25 @@ class TeacherServiceHandler(RequestHandler):
                 self.current_course = SightWordCourse('K', self.userid)
             else: 
                 self.current_course = SightWordCourse('K', self.userid)
-                
-        question = self.current_course.get_next_presentation(self.userid)
-        response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_standard_query())
+        else:
+            self.answers.append(student_response.answer)
+        if len(self.answers) == 0 or self.current_course.verify_response(self.answers[-1], self.questions[-1]) or self.three_incorrect_responses:        
+            question = self.current_course.get_next_presentation(self.userid)
+            response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_standard_query())
+            self.questions.append(question)
+            if not self.three_incorrect_responses:
+                self.correct_answer_account[question] += 1
+                self.answer_correctness_sequence.append(1)
+            else:
+                self.incorrect_answer_account[question] += 1
+                self.answer_correctness_sequence.append(0)                
+        else:
+            response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_motivating_phrase())
+            self.incorrect_answer_account[question] += 1
+            self.answer_correctness_sequence.append(0)
+
+        self.three_incorrect_responses = (len(self.answer_correctness_sequence)>=3 and sum(self.answer_correctness_sequence[-3:])==0)
+
         return response
 
 teachers = defaultdict(TeacherServiceHandler)

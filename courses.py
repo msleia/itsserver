@@ -16,6 +16,13 @@ class Course:
     def get_standard_query(self):
         pass
 
+    @abc.abstractmethod
+    def verify_response(self, response, question):
+        pass
+
+    def get_motivating_phrase(self):
+        return random.choice(["Can you try that again?", "Try again"])
+
 class SightWordCourse(Course):
 
     def __init__(self, level, userid):
@@ -62,3 +69,5 @@ class SightWordCourse(Course):
                 selected_words.append(rec[0])
         return selected_words
 
+    def verify_response(self, response, question):
+        return True if question in response.split(' ') else False
