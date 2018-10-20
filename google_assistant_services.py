@@ -37,7 +37,7 @@ class GAActionHandler(RequestHandler):
         userid = data["originalDetectIntentRequest"]["payload"]["user"]["userId"]
         if "idToken" in data["originalDetectIntentRequest"]["payload"]["user"]:
             jwToken = data["originalDetectIntentRequest"]["payload"]["user"]["idToken"]
-            idinfo = id_token.verify_oauth2_token(jwToken, requests.Request(), os.environ('CLIENT_ID'))
+            idinfo = id_token.verify_oauth2_token(jwToken, requests.Request(), os.environ.get('CLIENT_ID'))
             userid = idinfo['email']
 
         student_reponse = StudentResponse(userid, command)

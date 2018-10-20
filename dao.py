@@ -6,7 +6,7 @@ import os
 #heroku pg:psql postgresql-animate-46261 --app msleia
 class DAO:
     # engine = sy.create_engine("postgresql://mayoor@localhost/msleia")
-    engine = sy.create_engine(os.environ('DATABASE_URL', 'postgresql://mayoor@localhost/msleia'))
+    engine = sy.create_engine(os.environ.get('DATABASE_URL', 'postgresql://mayoor@localhost/msleia'))
 
     sessionmaker = sessionmaker(bind=engine)
     session = sessionmaker()
