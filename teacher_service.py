@@ -55,7 +55,7 @@ class TeacherServiceHandler(RequestHandler):
             self.answer_correctness_sequence.append(0)
 
         self.three_incorrect_responses = (len(self.answer_correctness_sequence)>=3 and sum(self.answer_correctness_sequence[-3:])==0)
-
+        print (self.answer_correctness_sequence)
         return response
 
 teachers = defaultdict(TeacherServiceHandler)
