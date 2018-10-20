@@ -10,6 +10,11 @@ from communication import StudentResponse
 from communication import TeacherResponse
 from communication import GAResponse
 
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
+import os
+
 class GAActionHandler(RequestHandler):
     
     
@@ -30,6 +35,11 @@ class GAActionHandler(RequestHandler):
             command = "Unknown"
             # userid = "Unknown"
         userid = data["originalDetectIntentRequest"]["payload"]["user"]["userId"]
+        if "idToken" in data["originalDetectIntentRequest"]["payload"]["user"]:
+            jwToken = data["originalDetectIntentRequest"]["payload"]["user"]["idToken"]
+            idinfo = id_token.verify_oauth2_token(jwToken, requests.Request(), os.environ('CLIENT_ID'))
+            userid = idinfo['email']
+
         student_reponse = StudentResponse(userid, command)
         print (student_reponse.__dict__)
         teacher_response = teacher.get_teacher(userid).teach(student_reponse)
