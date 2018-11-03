@@ -71,8 +71,7 @@ class SightWordCourse(Course):
             words = dao_obj.get_all(SIGHT_WORDS)
             if len(mwords) > self.max_size-1:
                 kwords_indexes = random.sample(range(0,len(mwords)),self.max_size-1)
-                print (">>>>>>>>>>>>",kwords_indexes)
-                print ("^^^^^^^^^^^^",mwords)
+
                 known_words = [(w['word'], w['word_id']) for w in [mwords[ik] for ik in kwords_indexes]]
             
                 for word in words:
@@ -97,12 +96,13 @@ class SightWordCourse(Course):
             fc_report = FlashCardReport(self.userid, fc.id, None, 0)
             dao_obj.put(fc_report)
             selected_words = fc_word_list
-
+            print ("*******", selected_words)
         else:
             word_list_query = "SELECT sw.name, sw.id FROM fc_words FCW, swords sw WHERE FCW.flash_card_id={} and FCW.sw_id=sw.id order by FCW.od asc".format(flash_card.flash_card_id)
             cursor = dao_obj.execute_query(word_list_query)
             for rec in cursor:
                 selected_words.append((rec[0], rec[1]))
+            print ("$$$$$$$$$$$", selected_words)
         ir_word_list = [selected_words[0],selected_words[1]]
         wind = 1
         for i in range(2,len(selected_words)):
