@@ -38,7 +38,7 @@ class SightWordCourse(Course):
 
     def get_standard_query(self, question=None):
         if self.curr_word_index == 1 and question:
-            return "This word is pronounced {}".format(question)
+            return "This word is pronounced {}. Can you repeat that?".format(question)
         return "What is the word that you see?"
 
     def get_mastered_words(self):
