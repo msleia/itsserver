@@ -24,7 +24,7 @@ class Course:
         return random.choice(["Can you try that again?", "Try again"])
 
     def get_course_completion_phrase(self):
-        return "Congratulations! You just completed a reading exercise. Let us practice this again tomorrow"
+        return "Congratulations! You just completed a reading exercise. Let us practice this again tomorrow. Good bye!"
 
 class SightWordCourse(Course):
 

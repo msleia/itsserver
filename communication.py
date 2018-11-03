@@ -1,9 +1,10 @@
 class TeacherResponse():
-    def __init__(self, userid, exercise_type, question, prompt):
+    def __init__(self, userid, exercise_type, question, prompt, session_complete=False):
         self.userid = userid
         self.exercise_type = exercise_type
         self.question = question
         self.prompt = prompt
+        self.session_complete = False
 
 class TeacherQuery():
     def __init__(self, userid, prompt):
@@ -22,7 +23,7 @@ class GAResponse():
         self.speech = speech
         self.displayText = displayText
 
-    def get_json_response(self):
+    def get_json_response(self, expect_response=True):
         # res = {
         #     "speech": self.speech,  
         #     "displayText": self.displayText,
@@ -55,7 +56,7 @@ class GAResponse():
         res = {
             "payload": {
                 "google": {
-                "expectUserResponse": True,
+                "expectUserResponse": expect_response,
                 "richResponse": {
                     "items": [
                     {

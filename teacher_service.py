@@ -58,7 +58,7 @@ class TeacherServiceHandler(RequestHandler):
                 response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_standard_query(question))
                 self.questions.append((question, question_id))
             else:
-                response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase())
+                response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase(), session_complete=True)
         else:
             response = TeacherResponse(self.userid, self.exercise, self.questions[-1][0], self.current_course.get_motivating_phrase())
 
