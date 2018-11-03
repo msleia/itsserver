@@ -14,9 +14,7 @@ import os
 class WebSocket(SockJSConnection):
     # clients = []
     user_client = {}
-    def __init__(self, **kwargs):
-        super.__init__(**kwargs)
-        self.sock_key = ''
+    
     def on_open(self, info):
         # WebSocket.clients.append(self)
         print("Socket opened.")
