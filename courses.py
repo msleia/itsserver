@@ -50,6 +50,7 @@ class SightWordCourse(Course):
         return word_mastery_list
 
     def get_next_presentation(self, curr_presentation):
+        print (len(self.flashcard), self.curr_word_index, "Why is this empty")
         if self.curr_word_index == len(self.flashcard):
             self.curr_word = ''
             return (None,None)
