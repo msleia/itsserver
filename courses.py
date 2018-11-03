@@ -109,7 +109,7 @@ class SightWordCourse(Course):
             ir_word_list.append(selected_words[0])
             for k in range(i):
                 ir_word_list.append(selected_words[wind+k])
-            
+        print ('~~~~~~~~~~~~~', ir_word_list)
         return ir_word_list
 
 
