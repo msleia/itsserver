@@ -90,6 +90,7 @@ class SightWordCourse(Course):
                 fc_word_list += [(words[index].name, words[index].id) for index in windexes]
             fc = FlashCard("fc_{}_{}".format(self.userid, self.level),self.userid, "{} flash card for {}".format(self.level, self.userid))
             fc = dao_obj.put(fc)
+            self.flash_card_id = fc
             fc_obj_list = []
             print (fc_word_list, len(mwords), len(words))
             for index in range(len(fc_word_list)):
