@@ -54,7 +54,7 @@ class SightWordCourse(Course):
             fc = FlashCard("fc_{}_{}".format(self.userid, self.level),self.userid, "{} flash card for {}".format(self.level, self.userid))
             fc = dao_obj.put(fc)
             for index in windexes:
-                selected_words.append(words[index].name)
+                selected_words.append((words[index].name, words[index].id))
                 fc_word_list.append(FlashCardSW(fc.id,self.userid,words[index].id))
             for fcw in fc_word_list:
                 fcw.flash_card_id = fc.id
@@ -63,11 +63,14 @@ class SightWordCourse(Course):
             dao_obj.put(fc_report)
 
         else:
-            word_list_query = "SELECT sw.name FROM fc_words FCW, swords sw WHERE FCW.flash_card_id={} and FCW.sw_id=sw.id".format(flash_card.flash_card_id)
+            word_list_query = "SELECT sw.name, sw.id FROM fc_words FCW, swords sw WHERE FCW.flash_card_id={} and FCW.sw_id=sw.id".format(flash_card.flash_card_id)
             cursor = dao_obj.execute_query(word_list_query)
             for rec in cursor:
-                selected_words.append(rec[0])
+                selected_words.append((rec[0], rec[1]))
         return selected_words
 
     def verify_response(self, response, question):
-        return True if question in response.split(' ') else False
+        res_correctness = True if question[0] in response.split(' ') else False
+        wr = WordReport(self.userid, question[1], 1 if res_correctness else 0)
+        dao_obj.put(wr)
+        return res_correctness

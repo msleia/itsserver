@@ -43,8 +43,13 @@ class GAActionHandler(RequestHandler):
         student_reponse = StudentResponse(userid, command)
         print (student_reponse.__dict__)
         teacher_response = teacher.get_teacher(userid).teach(student_reponse)
-        WebSocket.clients[0].broadcast(WebSocket.clients,{"command":teacher_response.question})
-        print (teacher_response.__dict__)
-        ga_payload = GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response()
+        # WebSocket.clients[0].broadcast(WebSocket.clients,{"command":teacher_response.question})
+        if userid in WebSocket.user_client:
+            WebSocket.user_client[userid].send({"command":teacher_response.question})
+            print (teacher_response.__dict__)
+            ga_payload = GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response()
+        else:
+            tv_not_found = "I cant communicate with your Television. Make sure you have launched the app and then try again"
+            ga_payload = GAResponse(tv_not_found, tv_not_found).get_json_response()
         print (ga_payload)
         self.write(ga_payload)

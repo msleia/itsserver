@@ -44,20 +44,20 @@ class TeacherServiceHandler(RequestHandler):
         if len(self.answers) > 0:
             answer_correct = self.current_course.verify_response(self.answers[-1], self.questions[-1])
             if answer_correct:
-                self.correct_answer_account[self.questions[-1]] += 1
+                self.correct_answer_account[self.questions[-1][0]] += 1
                 self.answer_correctness_sequence.append(1)
             else:
-                self.incorrect_answer_account[self.questions[-1]] += 1
+                self.incorrect_answer_account[self.questions[-1][0]] += 1
                 self.answer_correctness_sequence.append(0)                
 
             self.three_incorrect_responses = (len(self.answer_correctness_sequence)>=3 and sum(self.answer_correctness_sequence[-3:])==0)
 
         if len(self.answers) == 0 or answer_correct or self.three_incorrect_responses:        
-            question = self.current_course.get_next_presentation(self.userid)
+            question, question_id = self.current_course.get_next_presentation(self.userid)
             response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_standard_query())
-            self.questions.append(question)
+            self.questions.append((question, question_id))
         else:
-            response = TeacherResponse(self.userid, self.exercise, self.questions[-1], self.current_course.get_motivating_phrase())
+            response = TeacherResponse(self.userid, self.exercise, self.questions[-1][0], self.current_course.get_motivating_phrase())
 
         print (self.answer_correctness_sequence)
         return response
