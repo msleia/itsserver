@@ -19,8 +19,8 @@ class WebSocket(SockJSConnection):
         print("Socket opened.")
 
     def on_message(self, message):
+        print("&&Received message: " + message, type(message), message)
         self.send(json.dumps({"received":message}))
-        print("Received message: " + message, type(message))
 
     def send_message(self, message, data_type):
         """
