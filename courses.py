@@ -71,7 +71,9 @@ class SightWordCourse(Course):
             words = dao_obj.get_all(SIGHT_WORDS)
             if len(mwords) > self.max_size-1:
                 kwords_indexes = random.sample(range(0,len(mwords)),self.max_size-1)
-                known_words = [(w['word'], w['word_id']) for w in mwords[kwords_indexes]]
+                print (">>>>>>>>>>>>",kwords_indexes)
+                print ("^^^^^^^^^^^^",mwords)
+                known_words = [(w['word'], w['word_id']) for w in [mwords[ik] for ik in kwords_indexes]]
             
                 for word in words:
                     if word.name not in all_mastered_words:
