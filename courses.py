@@ -71,6 +71,7 @@ class SightWordCourse(Course):
 
     def verify_response(self, response, question):
         res_correctness = True if question[0] in response.split(' ') else False
+        print (res_correctness, question, response.split(' '))
         wr = WordReport(self.userid, question[1], 1 if res_correctness else 0)
         dao_obj.put(wr)
         return res_correctness

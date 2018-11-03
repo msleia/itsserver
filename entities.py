@@ -74,7 +74,7 @@ class WordReport(Base):
     sw_id = Column(Integer)
     is_identified = Column(Integer)
 
-    def __init__(self, sw_id, userid, is_identified):
+    def __init__(self, userid, sw_id, is_identified):
         self.sw_id = sw_id
         self.userid = userid
         self.is_identified = is_identified
