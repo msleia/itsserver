@@ -33,8 +33,8 @@ class SightWordCourse(Course):
         self.curr_word_index = 0
         self.level = level
         self.userid = userid
-        self.flashcard = self.generate_flashcard(userid)
         self.max_size = max_size
+        self.flashcard = self.generate_flashcard(userid)
 
     def get_standard_query(self, question=None):
         if self.curr_word_index == 0 and question:
