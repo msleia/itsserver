@@ -24,7 +24,7 @@ class WebSocket(SockJSConnection):
         if vals[0] == 'SEND' and len(vals) > 1:
             ms_payload = eval(vals[1][12:]) if vals[1].startswith('destination:') else {}
             if 'message' in ms_payload:
-                print ("Exctracted message is ", ms_payload[1])
+                print ("Exctracted message is ", ms_payload)
                 print ('user name is: ', ms_payload['message']['username'])
                 WebSocket.user_client[ms_payload['message']['username']] = self
             else:
