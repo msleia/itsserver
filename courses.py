@@ -34,6 +34,7 @@ class SightWordCourse(Course):
         self.level = level
         self.userid = userid
         self.max_size = max_size
+        self.flash_card_id = None
         self.flashcard = self.generate_flashcard(userid)
 
     def get_standard_query(self, question=None):
@@ -52,6 +53,8 @@ class SightWordCourse(Course):
     def get_next_presentation(self, curr_presentation):
         if self.curr_word_index == len(self.flashcard):
             self.curr_word = ''
+            self.flash_card_id.is_completed = 1
+            dao_obj.session.commit()
             return (None,None)
         else:
             self.curr_word = self.flashcard[self.curr_word_index]
@@ -61,6 +64,7 @@ class SightWordCourse(Course):
 
     def generate_flashcard(self, userid):
         flash_card = dao_obj.get_where(FlashCardReport, "userid = '{}' and is_completed = {}".format(userid, 0))
+        self.flash_card_id = flash_card
         # FlashCardSW
         selected_words = []
 

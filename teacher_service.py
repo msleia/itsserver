@@ -34,9 +34,9 @@ class TeacherServiceHandler(RequestHandler):
             self.exercise = student_response.answer
             self.userid = student_response.userid
             if self.exercise == "Sightwords":
-                self.current_course = SightWordCourse('K', self.userid, 5)
+                self.current_course = SightWordCourse('K', self.userid, max_size=5)
             else: 
-                self.current_course = SightWordCourse('K', self.userid, 5)
+                self.current_course = SightWordCourse('K', self.userid, max_size=5)
         else:
             self.answers.append(student_response.answer)
 
