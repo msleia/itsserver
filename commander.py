@@ -13,13 +13,14 @@ import os
 
 class WebSocket(SockJSConnection):
     clients = []
+    user_client = {}
     def on_open(self, info):
-        self.clients.append(self)
+        WebSocket.clients.append(self)
         print("Socket opened.")
 
     def on_message(self, message):
-        self.send("Received: " + message)
-        print("Received message: " + message)
+        self.send(json.dumps({"received":message}))
+        print("Received message: " + message, type(message))
 
     def send_message(self, message, data_type):
         """
