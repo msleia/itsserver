@@ -20,6 +20,15 @@ class WebSocket(SockJSConnection):
 
     def on_message(self, message):
         print("&&Received message: " + message.strip(), type(message), message.strip())
+        vals = message.split('\n')
+        if vals[0] == 'SEND' and len(vals) > 1:
+            ms_payload = eval(vals[1][12:]) if vals[1].startswith('destination:') else {}
+            if 'message' in ms_payload:
+                print ("Exctracted message is ", ms_payload[1])
+                print ('user name is: ', ms_payload['message']['username'])
+                WebSocket.user_client[ms_payload['message']['username']] = self
+            else:
+                print ('no idea what i received')
         self.send(json.dumps({"received":message}))
 
     def send_message(self, message, data_type):
