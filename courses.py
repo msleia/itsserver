@@ -42,7 +42,7 @@ class SightWordCourse(Course):
         return "What is the word that you see?"
 
     def get_mastered_words(self):
-        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type having sum(is_identified) > 2 order by mastery desc'.format(self.userid)
+        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type having sum(is_identified) > 0 order by mastery desc'.format(self.userid)
         cursor = dao_obj.execute_query(query_word_report)
         word_mastery_list = []
         for rec in cursor:
@@ -84,14 +84,17 @@ class SightWordCourse(Course):
                 fc_word_list += [(words[index].name, words[index].id) for index in windexes]
             fc = FlashCard("fc_{}_{}".format(self.userid, self.level),self.userid, "{} flash card for {}".format(self.level, self.userid))
             fc = dao_obj.put(fc)
+            fc_obj_list = []
+            print (fc_word_list, len(mwords), len(words))
             for index in range(len(fc_word_list)):
                 # selected_words.append((words[index].name, words[index].id))
-                fc_word_list.append(FlashCardSW(fc.id,self.userid,fc_word_list[index][1], index))
-            for fcw in fc_word_list:
+                fc_obj_list.append(FlashCardSW(fc.id,self.userid,fc_word_list[index][1], index))
+            for fcw in fc_obj_list:
                 fcw.flash_card_id = fc.id
                 dao_obj.put(fcw)
             fc_report = FlashCardReport(self.userid, fc.id, None, 0)
             dao_obj.put(fc_report)
+            selected_words = fc_word_list
 
         else:
             word_list_query = "SELECT sw.name, sw.id FROM fc_words FCW, swords sw WHERE FCW.flash_card_id={} and FCW.sw_id=sw.id order by FCW.od asc".format(flash_card.flash_card_id)
