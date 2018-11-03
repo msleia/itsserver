@@ -37,7 +37,7 @@ class SightWordCourse(Course):
         self.flashcard = self.generate_flashcard(userid)
 
     def get_standard_query(self, question=None):
-        if self.curr_word_index == 0 and question:
+        if self.curr_word_index == 1 and question:
             return "This word is pronounced {}".format(question)
         return "What is the word that you see?"
 
@@ -50,14 +50,14 @@ class SightWordCourse(Course):
         return word_mastery_list
 
     def get_next_presentation(self, curr_presentation):
-        print (len(self.flashcard), self.curr_word_index, "Why is this empty")
         if self.curr_word_index == len(self.flashcard):
             self.curr_word = ''
             return (None,None)
         else:
             self.curr_word = self.flashcard[self.curr_word_index]
             self.curr_word_index += 1
-        return self.flashcard[self.curr_word_index]
+        # print (len(self.flashcard), self.curr_word_index, self.curr_word, "Why is this empty")
+        return self.curr_word
 
     def generate_flashcard(self, userid):
         flash_card = dao_obj.get_where(FlashCardReport, "userid = '{}' and is_completed = {}".format(userid, 0))
