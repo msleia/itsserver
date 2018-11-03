@@ -49,6 +49,7 @@ class GAActionHandler(RequestHandler):
             print (teacher_response.__dict__)
             ga_payload = GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response()
         else:
+            print ("Unknown user : {}".format(userid))
             tv_not_found = "I cant communicate with your Television. Make sure you have launched the app and then try again"
             ga_payload = GAResponse(tv_not_found, tv_not_found).get_json_response()
         print (ga_payload)
