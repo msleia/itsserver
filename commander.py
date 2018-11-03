@@ -12,10 +12,12 @@ import os
 
 
 class WebSocket(SockJSConnection):
-    clients = []
+    # clients = []
     user_client = {}
+    def __init__(self):
+        self.sock_key = ''
     def on_open(self, info):
-        WebSocket.clients.append(self)
+        # WebSocket.clients.append(self)
         print("Socket opened.")
 
     def on_message(self, message):
@@ -27,6 +29,7 @@ class WebSocket(SockJSConnection):
                 print ("Exctracted message is ", ms_payload)
                 print ('user name is: ', ms_payload['message']['username'].strip())
                 WebSocket.user_client[ms_payload['message']['username'].strip()] = self
+                self.sock_key = ms_payload['message']['username'].strip()
             else:
                 print ('no idea what i received')
         self.send(json.dumps({"received":message}))
@@ -41,12 +44,14 @@ class WebSocket(SockJSConnection):
         }))
 
     def on_close(self):
+        WebSocket.user_client.pop(self.sock_key, None)
         print("Socket closed.")
 
 class SendCommand(RequestHandler):
     def get(self, data):
         print ("Command received {}".format(data))
-        WebSocket.clients[0].broadcast(WebSocket.clients,{"command":data})
+        sockets = [WebSocket.user_client[k] for k in WebSocket.user_client]
+        sockets[0].broadcast(sockets,{"command":data})
 
 
 if __name__ == "__main__":
