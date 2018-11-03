@@ -17,7 +17,8 @@ create table FC_WORDS (
     id SERIAL PRIMARY KEY,
     userid TEXT,
     flash_card_id INTEGER,
-    sw_id INTEGER
+    sw_id INTEGER,
+    od INTEGER
 );
 
 create table WORD_REPORT (

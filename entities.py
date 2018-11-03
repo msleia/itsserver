@@ -51,14 +51,16 @@ class FlashCardSW(Base):
 
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    od = Column(Integer)
     userid = Column(String)
     flash_card_id = Column(Integer)
     sw_id = Column(Integer)
 
-    def __init__(self, flash_card_id, userid, sw_id):
+    def __init__(self, flash_card_id, userid, sw_id, order):
         self.userid = userid
         self.flash_card_id = flash_card_id
         self.sw_id = sw_id
+        self.od = order
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
