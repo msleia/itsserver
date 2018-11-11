@@ -45,7 +45,7 @@ class GAActionHandler(RequestHandler):
         teacher_response = teacher.get_teacher(userid).teach(student_reponse)
         # WebSocket.clients[0].broadcast(WebSocket.clients,{"command":teacher_response.question})
         if userid in WebSocket.user_client:
-            WebSocket.user_client[userid].send({"command":teacher_response.question,"feedback":1 if teacher_response.was_student_response_correct else 0})
+            WebSocket.user_client[userid].send({"command":teacher_response.question,"feedback":"OK" if teacher_response.was_student_response_correct else "WRONG"})
             print (teacher_response.__dict__)
             ga_payload = GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response(expect_response= not teacher_response.session_complete)
         else:
