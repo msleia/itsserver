@@ -60,7 +60,7 @@ class TeacherServiceHandler(RequestHandler):
             else:
                 response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase(), session_complete=True)
         else:
-            response = TeacherResponse(self.userid, self.exercise, self.questions[-1][0], self.current_course.get_motivating_phrase())
+            response = TeacherResponse(self.userid, self.exercise, self.questions[-1][0], self.current_course.get_motivating_phrase(),was_student_response_correct=False)
 
         print (self.answer_correctness_sequence)
         return response

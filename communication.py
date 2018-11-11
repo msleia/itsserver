@@ -1,10 +1,11 @@
 class TeacherResponse():
-    def __init__(self, userid, exercise_type, question, prompt, session_complete=False):
+    def __init__(self, userid, exercise_type, question, prompt, session_complete=False, was_student_response_correct=True):
         self.userid = userid
         self.exercise_type = exercise_type
         self.question = question
         self.prompt = prompt
-        self.session_complete = False
+        self.session_complete = session_complete
+        self.was_student_response_correct = was_student_response_correct
 
 class TeacherQuery():
     def __init__(self, userid, prompt):
