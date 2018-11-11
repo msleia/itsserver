@@ -23,6 +23,9 @@ class Course:
     def get_motivating_phrase(self):
         return random.choice(["Can you try that again?", "Try again"])
 
+    def get_encouraging_feedback(self):
+        return random.choice(["Good Job!", "Let us Try another one", "Good. Let us keep going", "Awesome", "You are so good at it!"])
+
     def get_course_completion_phrase(self):
         return "Congratulations! You just completed a reading exercise. Let us practice this again tomorrow. Good bye!"
 

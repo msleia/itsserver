@@ -55,7 +55,11 @@ class TeacherServiceHandler(RequestHandler):
         if len(self.answers) == 0 or answer_correct or self.three_incorrect_responses:        
             question, question_id = self.current_course.get_next_presentation(self.userid)
             if question:
-                response = TeacherResponse(self.userid, self.exercise, question, self.current_course.get_standard_query(question))
+                if answer_correct:
+                    message = self.current_course.get_encouraging_feedback()+self.current_course.get_standard_query(question)
+                else:
+                    message = self.current_course.get_standard_query(question)
+                response = TeacherResponse(self.userid, self.exercise, question, message)
                 self.questions.append((question, question_id))
             else:
                 response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase(), session_complete=True)
