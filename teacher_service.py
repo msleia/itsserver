@@ -35,14 +35,15 @@ class TeacherServiceHandler(RequestHandler):
             self.userid = student_response.userid
             if self.exercise == "Sightwords":
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
+            elif self.exercise == "mastered vocabulary":
+                self.current_course = SightWordCourse('K', self.userid, max_size=5)
             else: 
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
-
+        else:
             if self.exercise == "mastered vocabulary":
                 report = self.current_course.get_course_report(self.exercise)
                 response = TeacherResponse(self.userid, self.exercise, report, "Here is the list.", session_complete=True)
                 return response
-        else:
             self.answers.append(student_response.answer)
 
         answer_correct = False
