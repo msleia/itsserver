@@ -20,6 +20,10 @@ class Course:
     def verify_response(self, response, question):
         pass
 
+    @abc.abstractmethod
+    def get_course_report(self, report_type):
+        pass
+
     def get_motivating_phrase(self):
         return random.choice(["Can you try that again?", "Try again."])
 
@@ -120,6 +124,9 @@ class SightWordCourse(Course):
                 ir_word_list.append(selected_words[wind+k])
         print ('~~~~~~~~~~~~~', ir_word_list)
         return ir_word_list
+
+    def get_course_report(self, report_type):
+        return {"mastered_vocab":self.get_mastered_words}
 
 
     def verify_response(self, response, question):
