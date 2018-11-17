@@ -23,6 +23,7 @@ class TeacherServiceHandler(RequestHandler):
         self.questions = []
         self.answers = []
         self.exercise = ""
+        self.new_session = True
         self.current_course = None
         self.correct_answer_account = defaultdict(int)
         self.incorrect_answer_account = defaultdict(int)
@@ -39,12 +40,16 @@ class TeacherServiceHandler(RequestHandler):
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
             else: 
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
-        else:
-            if self.exercise == "mastered vocabulary":
-                report = self.current_course.get_course_report(self.exercise)
-                response = TeacherResponse(self.userid, self.exercise, report, "Here is the list.", session_complete=True)
-                return response
+
+        if self.exercise == "mastered vocabulary":
+            report = self.current_course.get_course_report(self.exercise)
+            response = TeacherResponse(self.userid, self.exercise, report, "Here is the list.", session_complete=True)
+            return response
+
+        if not self.new_session:
             self.answers.append(student_response.answer)
+        else:
+            self.new_session = False
 
         answer_correct = False
         if len(self.answers) > 0:
