@@ -126,7 +126,7 @@ class SightWordCourse(Course):
         return ir_word_list
 
     def get_course_report(self, report_type):
-        return {"mastered_vocab":self.get_mastered_words}
+        return {"mastered_vocab":self.get_mastered_words()}
 
 
     def verify_response(self, response, question):
