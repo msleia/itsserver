@@ -37,7 +37,8 @@ class TeacherServiceHandler(RequestHandler):
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
             else: 
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
-            if self.exercise == "Mastered_Vocabulary":
+
+            if self.exercise == "mastered vocabulary":
                 report = self.current_course.get_course_report()
                 response = TeacherResponse(self.userid, self.exercise, report, "Here is the list.", session_complete=True)
                 return response
