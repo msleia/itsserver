@@ -48,6 +48,8 @@ class GAActionHandler(RequestHandler):
             WebSocket.user_client[userid].send({"command":teacher_response.question,"feedback":"OK" if teacher_response.was_student_response_correct else "WRONG"})
             print (teacher_response.__dict__)
             ga_payload = GAResponse(teacher_response.prompt, teacher_response.prompt).get_json_response(expect_response= not teacher_response.session_complete)
+            if teacher_response.session_complete:
+                teacher.teachers.pop(userid, None)
         else:
             print ("Unknown user : {}".format(userid))
             tv_not_found = "I cant communicate with your Television. Make sure you have launched the app and then try again"
