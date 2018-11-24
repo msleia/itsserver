@@ -38,7 +38,7 @@ class TeacherServiceHandler(RequestHandler):
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
             elif self.exercise == "mastered vocabulary":
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
-            elif self.exercise == "sentences":
+            elif self.exercise.lower() == "sentences" or self.exercise.lower() == "sentence":
                 self.current_course = ShortSentenceCourse('K', self.userid, max_size=5)
             else: 
                 self.current_course = SightWordCourse('K', self.userid, max_size=5)
