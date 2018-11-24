@@ -120,3 +120,55 @@ class FlashCardReport(Base):
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+class SentenceRepo(Base):
+
+    __tablename__ = 'sent_repo'
+    _table_args__ = {'quote':False,'extend_existing':True}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String)
+    description = Column(String)
+
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+class SentenceCourseDetails(Base):
+
+    __tablename__ = 'sent_course'
+    _table_args__ = {'quote':False,'extend_existing':True}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userid = Column(String)
+    sent_card_id = Column(Integer)
+    sent_id = Column(Integer)
+
+    def __init__(self, sent_card_id, sent_id, userid):
+        self.sent_card_id = sent_card_id
+        self.sent_id = sent_id
+        self.userid = userid
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+class SentenceCard(Base):
+    __tablename__ = 'sent_card'
+    _table_args__ = {'quote':False,'extend_existing':True}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userid = Column(String)
+    name = Column(String)
+    description = Column(String)
+
+    def __init__(self, name, userid, description, is_completed):
+        self.name = name
+        self.userid = userid
+        self.description = description
+        self.is_completed = is_completed
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

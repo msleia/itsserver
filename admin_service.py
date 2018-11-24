@@ -23,4 +23,17 @@ class SightWordHandler(RequestHandler):
 
 
     
- 
+class SentenceHandler(RequestHandler):
+    def get(self):
+        actions = dao_obj.get_all(SentenceRepo)
+        data = {'sentences':[act.to_dict() for act in actions]}
+        self.write(data)
+
+    """
+    payload structure = {"sentences":[{"sentence":"thank you", "description","Dolch"}]}
+    """
+    def post(self):
+        sw = tornado.escape.json_decode(self.request.body)
+        sents = sw["sentences"]
+        for sent in sents:
+            dao_obj.put(SentenceRepo(sent['sentence'],sent['description']))

@@ -33,6 +33,86 @@ class Course:
     def get_course_completion_phrase(self):
         return "Congratulations! You just completed a reading exercise. Let us practice this again tomorrow. Good bye!"
 
+class ShortSentenceCourse(Course):
+    def __init__(self, level, userid, max_size=6):
+        self.curr_word = None
+        self.curr_word_index = 0
+        self.level = level
+        self.userid = userid
+        self.max_size = max_size
+        self.sentence_course_id = None
+        self.sentences = self.generate_sentence_course(userid)
+
+    def get_mastered_words(self):
+        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type having sum(is_identified) > 0 order by mastery desc'.format(self.userid)
+        cursor = dao_obj.execute_query(query_word_report)
+        word_mastery_list = []
+        for rec in cursor:
+            word_mastery_list.append({'user':rec[4], 'type':rec[3], 'word':rec[2], 'word_id':rec[1], 'identified_count':rec[0]})
+        return word_mastery_list
+
+    def generate_sentence_course(self, userid):
+
+        sent_card = dao_obj.get_where(SentenceCard, "userid = '{}' and is_completed = {}".format(userid, 0))
+        self.sentence_course_id = sent_card
+        selected_sentences = []
+        if not sent_card:
+            sc = SentenceCard("sc_{}_{}".format(self.userid, self.level),self.userid, "{} sentence card for {}".format(self.level, self.userid), 0)
+            sc = dao_obj.put(sc)
+            self.sentence_course_id = sc
+
+            word_list = self.get_mastered_words()
+            words = [mw['word'] for mw in word_list]
+            sent_list = dao_obj.get_all(SentenceRepo)
+            course_sentences = []
+            for sent in sent_list:
+                for w in sent.name.split(' '):
+                    if w not in words:
+                        break
+                course_sentences.append(SentenceCourseDetails(sc.id,sent.id,self.userid))
+            selected_sentences.append((sent.name, sent.id))
+            for scd in course_sentences:
+                dao_obj.put(scd)
+
+        else:
+            sentence_list_query = "select sr.name, sr.id from sent_repo sr, sent_course sc where sc.sent_id=sr.id and sent_card_id={}".format(sent_card.id)
+            cursor = dao_obj.execute_query(sentence_list_query)
+            for rec in cursor:
+                selected_sentences.append((rec[0], rec[1]))
+            print ("$$$$$$$$$$$", selected_sentences)
+
+        return selected_sentences
+
+    def get_standard_query(self, question=None):
+        return "Can you try reading this sentence?"
+    
+    def get_next_presentation(self, curr_presentation):
+        if self.curr_word_index == len(self.sentences):
+            self.curr_word = ''
+            self.sentence_course_id.is_completed = 1
+            dao_obj.session.commit()
+            return (None,None)
+        else:
+            self.curr_word = self.sentences[self.curr_word_index]
+            self.curr_word_index += 1
+        # print (len(self.flashcard), self.curr_word_index, self.curr_word, "Why is this empty")
+        return self.curr_word
+
+
+    def verify_response(self, response, question):
+        res_correctness = True
+        res_words = response.split()
+        for qw in range(len(question.split(' '))):
+            if qw not in res_words:
+                res_correctness = False
+        print (res_correctness, question, response.split(' '))
+        # wr = WordReport(self.userid, question[1], 1 if res_correctness else 0)
+        # dao_obj.put(wr)
+        return res_correctness
+
+    def get_course_report(self, report_type):
+        pass
+
 class SightWordCourse(Course):
 
     def __init__(self, level, userid, max_size=10):
