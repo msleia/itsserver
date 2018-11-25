@@ -71,7 +71,7 @@ class ShortSentenceCourse(Course):
             for sent in sent_list:
                 print ("-----------------------------------------------------------------------------------------------")
                 good = True
-                for w in sent.lower().name.split(' '):
+                for w in sent.name.lower().split(' '):
                     print (w, sent.name)
                     if w not in words:
                         good = False
