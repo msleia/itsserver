@@ -62,7 +62,7 @@ class ShortSentenceCourse(Course):
             self.sentence_course_id = sc
 
             word_list = self.get_mastered_words()
-            words = [mw['word'] for mw in word_list]
+            words = [mw['word'].lower() for mw in word_list]
             sent_list = dao_obj.get_all(SentenceRepo)
             course_sentences = []
             print ("*****************************************************************************************")
@@ -71,7 +71,7 @@ class ShortSentenceCourse(Course):
             for sent in sent_list:
                 print ("-----------------------------------------------------------------------------------------------")
                 good = True
-                for w in sent.name.split(' '):
+                for w in sent.lower().name.split(' '):
                     print (w, sent.name)
                     if w not in words:
                         good = False
