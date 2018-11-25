@@ -65,9 +65,14 @@ class ShortSentenceCourse(Course):
             words = [mw['word'] for mw in word_list]
             sent_list = dao_obj.get_all(SentenceRepo)
             course_sentences = []
+            print ("*****************************************************************************************")
+            print (words)
+            print ("*****************************************************************************************")
             for sent in sent_list:
+                print ("-----------------------------------------------------------------------------------------------")
                 good = True
                 for w in sent.name.split(' '):
+                    print (w, sent.name)
                     if w not in words:
                         good = False
                         break
@@ -76,6 +81,7 @@ class ShortSentenceCourse(Course):
                     selected_sentences.append((sent.name, sent.id))
                 if len(selected_sentences) >= self.max_size:
                     break
+                print ("-----------------------------------------------------------------------------------------------")
             for scd in course_sentences:
                 dao_obj.put(scd)
 
