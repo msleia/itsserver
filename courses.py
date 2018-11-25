@@ -102,7 +102,8 @@ class ShortSentenceCourse(Course):
     def verify_response(self, response, question):
         res_correctness = True
         res_words = response.split()
-        for qw in range(len(question.split(' '))):
+        print (question)
+        for qw in range(len(question[0].split(' '))):
             if qw not in res_words:
                 res_correctness = False
         print (res_correctness, question, response.split(' '))

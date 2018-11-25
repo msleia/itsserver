@@ -56,5 +56,6 @@ create table sent_card (
     id SERIAL PRIMARY KEY,
     userid TEXT,
     name TEXT,
-    description TEXT
+    description TEXT,
+    is_completed INTEGER
 );
