@@ -103,7 +103,7 @@ class ShortSentenceCourse(Course):
         res_correctness = True
         res_words = response.split()
         print (question)
-        for qw in range(len(question[0].split(' '))):
+        for qw in question[0].split(' '):
             if qw not in res_words:
                 res_correctness = False
         print (res_correctness, question, response.split(' '))

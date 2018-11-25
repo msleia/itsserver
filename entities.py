@@ -163,6 +163,7 @@ class SentenceCard(Base):
     userid = Column(String)
     name = Column(String)
     description = Column(String)
+    is_completed = Column(Integer)
 
     def __init__(self, name, userid, description, is_completed):
         self.name = name
