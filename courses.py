@@ -70,7 +70,7 @@ class ShortSentenceCourse(Course):
                     if w not in words:
                         break
                 course_sentences.append(SentenceCourseDetails(sc.id,sent.id,self.userid))
-            selected_sentences.append((sent.name, sent.id))
+                selected_sentences.append((sent.name, sent.id))
             for scd in course_sentences:
                 dao_obj.put(scd)
 
