@@ -31,7 +31,7 @@ class TeacherServiceHandler(RequestHandler):
         self.three_incorrect_responses = False
 
     def teach(self, student_response):
-        if  self.userid == 0:
+        if  self.userid == 0 or student_response.answer.lower() in ["sentences", "sentence", "sightwords", "mastered vocabulary", "sight words", "words"]:
             self.exercise = student_response.answer
             self.userid = student_response.userid
             if self.exercise == "Sightwords":
