@@ -31,6 +31,8 @@ class Course:
 
     def get_encouraging_feedback(self):
         # return random.choice(["Good job!", "Let us try another one.", "Good. Let us keep going.", "Awesome!", "You are so good at it!"])
+        if len(Course.encouraging_messages) == 0:
+            return "Good Job!"
         return random.choice(Course.encouraging_messages)
 
     def get_course_completion_phrase(self):

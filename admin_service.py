@@ -72,5 +72,5 @@ class EncMsgHandler(RequestHandler):
         sw = tornado.escape.json_decode(self.request.body)
         msgs = sw["messages"]
         for msg in msgs:
-            dao_obj.put(EncMessages(msg))
+            dao_obj.put(EncMessages(msg['message']))
 
