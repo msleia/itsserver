@@ -39,8 +39,9 @@ class RewardManager():
             cursor = dao_obj.execute_query(exercise_count_qry)
             exercise_count = 0
             for rec in cursor:
+                print (">>>>>>>>>>>",rec)
                 exercise_count = rec[0]
-
+            print (">>>>>>>>>>>>>>>",exercise_count,rew_ex_ct,"<<<<<<<<<<<<<<<")
             if exercise_count == rew_ex_ct and rew_ex_ct >0 :
                 return True
         return False
@@ -49,6 +50,8 @@ class RewardManager():
         reward_qualified = 1 if self.has_reward else 0
         expRepo = ExerciseReport(self.userid, course_name, reward_qualified, 0, 1)
         dao_obj.put(expRepo)
+        dao_obj.session.commit()
+
 
 class TeacherServiceHandler(RequestHandler):
 

@@ -73,7 +73,7 @@ create table exercise_report (
     id SERIAL PRIMARY KEY,
     userid TEXT,
     course_name TEXT,
-    reward_qualified TEXT,
+    reward_qualified INTEGER,
     rewarded INTEGER,
     is_completed INTEGER
 );
