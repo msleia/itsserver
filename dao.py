@@ -17,6 +17,9 @@ class DAO:
     def get_where(self, cls, condition):
         return DAO.session.query(cls).filter(sy.text(condition)).first()
 
+    def get_where_list(self, cls, condition):
+        return DAO.session.query(cls).filter(sy.text(condition))
+
     def get_item(self, cls, id):
         return DAO.session.query(cls).filter_by(id=id).first()
 

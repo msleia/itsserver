@@ -28,8 +28,9 @@ class RewardManager():
 
     def mark_exercise_complete(self):
         rstat = 1 if self.reward else 0
-        erp = dao_obj.get_where(ExerciseReport,"reward_qualified = {} and rewarded = 0".format(rstat))
-        erp.rewarded = 1
+        erps = dao_obj.get_where_list(ExerciseReport,"reward_qualified = {} and rewarded = 0 and userid='{}'".format(rstat,self.userid))
+        for erp in erps:
+            erp.rewarded = 1
         dao_obj.session.commit()
 
     def is_qualified_for_reward(self):
@@ -42,7 +43,7 @@ class RewardManager():
                 print (">>>>>>>>>>>",rec)
                 exercise_count = rec[0]
             print (">>>>>>>>>>>>>>>",exercise_count,rew_ex_ct,"<<<<<<<<<<<<<<<")
-            if exercise_count == rew_ex_ct and rew_ex_ct >0 :
+            if exercise_count >= rew_ex_ct and rew_ex_ct >0 :
                 return True
         return False
         
@@ -121,6 +122,7 @@ class TeacherServiceHandler(RequestHandler):
                 reward_message = self.reward_manager.get_reward_message()
                 if reward_message:
                     response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase() + reward_message, session_complete=True)
+                    self.reward_manager.mark_exercise_complete()
                 else:
                     response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase(), session_complete=True)
         elif self.two_incorrect_responses:
