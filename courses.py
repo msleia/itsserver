@@ -31,7 +31,7 @@ class Course:
         return random.choice(["Good job!", "Let us try another one.", "Good. Let us keep going.", "Awesome!", "You are so good at it!"])
 
     def get_course_completion_phrase(self):
-        return "Congratulations! You just completed a reading exercise. Let us practice this again tomorrow. Good bye!"
+        return "Congratulations! You just completed a reading exercise. Let us practice this again tomorrow."
 
 class ShortSentenceCourse(Course):
     def __init__(self, level, userid, max_size=6):
@@ -78,7 +78,7 @@ class ShortSentenceCourse(Course):
                         break
                 if good:
                     course_sentences.append(SentenceCourseDetails(sc.id,sent.id,self.userid))
-                    selected_sentences.append((sent.name, sent.id))
+                    selected_sentences.append((sent.name, sent.id,""))
                 if len(selected_sentences) >= self.max_size:
                     break
                 print ("-----------------------------------------------------------------------------------------------")
@@ -89,7 +89,7 @@ class ShortSentenceCourse(Course):
             sentence_list_query = "select sr.name, sr.id from sent_repo sr, sent_course sc where sc.sent_id=sr.id and sent_card_id={}".format(sent_card.id)
             cursor = dao_obj.execute_query(sentence_list_query)
             for rec in cursor:
-                selected_sentences.append((rec[0], rec[1]))
+                selected_sentences.append((rec[0], rec[1], ""))
             print ("$$$$$$$$$$$", selected_sentences)
 
         return selected_sentences
@@ -142,11 +142,11 @@ class SightWordCourse(Course):
         return "What is the word that you see?"
 
     def get_mastered_words(self):
-        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type having sum(is_identified) > 0 order by mastery desc'.format(self.userid)
+        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid, sw.clues from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type having sum(is_identified) > 0 order by mastery desc'.format(self.userid)
         cursor = dao_obj.execute_query(query_word_report)
         word_mastery_list = []
         for rec in cursor:
-            word_mastery_list.append({'user':rec[4], 'type':rec[3], 'word':rec[2], 'word_id':rec[1], 'identified_count':rec[0]})
+            word_mastery_list.append({'user':rec[4], 'type':rec[3], 'word':rec[2], 'word_id':rec[1], 'identified_count':rec[0], 'clues':rec[5]})
         return word_mastery_list
 
     def get_next_presentation(self, curr_presentation):
@@ -176,14 +176,14 @@ class SightWordCourse(Course):
             if len(mwords) > self.max_size-1:
                 kwords_indexes = random.sample(range(0,len(mwords)),self.max_size-1)
 
-                known_words = [(w['word'], w['word_id']) for w in [mwords[ik] for ik in kwords_indexes]]
+                known_words = [(w['word'], w['word_id'], w['clues']) for w in [mwords[ik] for ik in kwords_indexes]]
             
                 for word in words:
                     if word.name not in all_mastered_words:
                         fc_word_list = [(word.name, word.id)] + known_words
                         break
                 if len(fc_word_list) < self.max_size:
-                    fc_word_list = [(mwords[-1]['word'], mwords[-1]['word_id'])] + known_words
+                    fc_word_list = [(mwords[-1]['word'], mwords[-1]['word_id'], mwords[-1]['clues'])] + known_words
             else:
                 windexes = random.sample(range(0,len(words)),len(mwords)-self.max_size)
                 fc_word_list += [(words[index].name, words[index].id) for index in windexes]
@@ -203,10 +203,10 @@ class SightWordCourse(Course):
             selected_words = fc_word_list
             print ("*******", selected_words)
         else:
-            word_list_query = "SELECT sw.name, sw.id FROM fc_words FCW, swords sw WHERE FCW.flash_card_id={} and FCW.sw_id=sw.id order by FCW.od asc".format(flash_card.flash_card_id)
+            word_list_query = "SELECT sw.name, sw.id, sw.clues FROM fc_words FCW, swords sw WHERE FCW.flash_card_id={} and FCW.sw_id=sw.id order by FCW.od asc".format(flash_card.flash_card_id)
             cursor = dao_obj.execute_query(word_list_query)
             for rec in cursor:
-                selected_words.append((rec[0], rec[1]))
+                selected_words.append((rec[0], rec[1],rec[2]))
             print ("$$$$$$$$$$$", selected_words)
         ir_word_list = [selected_words[0],selected_words[1]]
         wind = 1

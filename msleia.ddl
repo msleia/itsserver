@@ -3,7 +3,8 @@ create table SWORDS (
     userid TEXT,
     name TEXT,
     type TEXT,
-    description TEXT
+    description TEXT,
+    clues TEXT
 );
 
 create table FC_MASTER (
@@ -57,5 +58,22 @@ create table sent_card (
     userid TEXT,
     name TEXT,
     description TEXT,
+    is_completed INTEGER
+);
+
+create table reward (
+    id SERIAL PRIMARY KEY,
+    userid TEXT,
+    message TEXT,
+    exercise_count INTEGER,
+    status INTEGER
+);
+
+create table exercise_report (
+    id SERIAL PRIMARY KEY,
+    userid TEXT,
+    couse_name TEXT,
+    reward_qualified TEXT,
+    rewarded INTEGER,
     is_completed INTEGER
 );

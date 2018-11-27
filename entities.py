@@ -14,13 +14,14 @@ class SIGHT_WORDS(Base):
     name = Column(String)
     type = Column(String)
     description = Column(String)
+    clues = Column(String)
 
-    def __init__(self, name, type, userid, description):
+    def __init__(self, name, type, userid, description, clues):
         self.name = name
         self.type = type
         self.userid = userid
         self.description = description
-
+        self.clues = clues
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -169,6 +170,48 @@ class SentenceCard(Base):
         self.name = name
         self.userid = userid
         self.description = description
+        self.is_completed = is_completed
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class Reward(Base):
+    __tablename__ = 'reward'
+    _table_args__ = {'quote':False,'extend_existing':True}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userid = Column(String)
+    message = Column(String)
+    exercise_count = Column(Integer)
+    status = Column(Integer)
+
+    def __init__(self, userid, message, exercise_count, status):
+        self.userid = userid
+        self.message = message
+        self.exercise_count = exercise_count
+        self.status = status
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class ExerciseReport(Base):
+    __tablename__ = 'exercise_report'
+    _table_args__ = {'quote':False,'extend_existing':True}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userid = Column(String)
+    course_name = Column(String)
+    reward_qualified = Column(Integer)
+    rewarded = Column(Integer)
+    is_completed = Column(Integer)
+
+    def __init__(self, userid, course_name, reward_qualified, rewarded, is_completed):
+        self.course_name = course_name
+        self.userid = userid
+        self.reward_qualified = reward_qualified
+        self.rewarded = rewarded
         self.is_completed = is_completed
 
     def to_dict(self):
