@@ -120,9 +120,9 @@ class TeacherServiceHandler(RequestHandler):
                 self.reward_manager.create_excercise_info(self.exercise)
                 reward_message = self.reward_manager.get_reward_message()
                 if reward_message:
-                    response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase(), session_complete=True)
-                else:
                     response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase() + reward_message, session_complete=True)
+                else:
+                    response = TeacherResponse(self.userid, self.exercise, "Exercise completed.", self.current_course.get_course_completion_phrase(), session_complete=True)
         elif self.two_incorrect_responses:
             response = TeacherResponse(self.userid, self.exercise, self.questions[-1][0], self.questions[-1][2]+". "+self.current_course.get_motivating_phrase(),was_student_response_correct=False)
 
