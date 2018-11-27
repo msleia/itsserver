@@ -30,7 +30,7 @@ def main():
         (r'/',MainHandler),
         (r'/sightwords', SightWordHandler),
         (r'/sentences', SentenceHandler),
-        (r'/sentences', RewardHandler),
+        (r'/reward', RewardHandler),
         (r'/gaservice/command', GAActionHandler)
         ], static_path=os.path.join(root,'static'), template_path=os.path.join(root,'templates')
 
