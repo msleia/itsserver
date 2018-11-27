@@ -52,7 +52,7 @@ class RewardHandler(RequestHandler):
         sw = tornado.escape.json_decode(self.request.body)
         reward = sw["reward"]
         # userid, message, exercise_count, status
-        rw_active = dao_obj.get_where(Reward,"userid = '{}' and stats = 1".format(reward['userid']))
+        rw_active = dao_obj.get_where(Reward,"userid = '{}' and status = 1".format(reward['userid']))
         if rw_active:
             rw_active.status = 0
             dao_obj.session.commit()
