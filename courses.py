@@ -102,7 +102,7 @@ class ShortSentenceCourse(Course):
             self.curr_word = ''
             self.sentence_course_id.is_completed = 1
             dao_obj.session.commit()
-            return (None,None)
+            return (None,None,None)
         else:
             self.curr_word = self.sentences[self.curr_word_index]
             self.curr_word_index += 1
@@ -154,7 +154,7 @@ class SightWordCourse(Course):
             self.curr_word = ''
             self.flash_card_id.is_completed = 1
             dao_obj.session.commit()
-            return (None,None)
+            return (None,None,None)
         else:
             self.curr_word = self.flashcard[self.curr_word_index]
             self.curr_word_index += 1
