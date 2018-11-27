@@ -35,7 +35,7 @@ class RewardManager():
     def is_qualified_for_reward(self):
         if self.reward:
             rew_ex_ct = self.reward.exercise_count if self.reward else 0
-            exercise_count_qry = "select count(*) from exercise_report where user_id='{}' and reward_qualified=1 and rewarded=0 and is_completed=1".format(self.userid)
+            exercise_count_qry = "select count(*) from exercise_report where userid='{}' and reward_qualified=1 and rewarded=0 and is_completed=1".format(self.userid)
             cursor = dao_obj.execute_query(exercise_count_qry)
             exercise_count = 0
             for rec in cursor:
