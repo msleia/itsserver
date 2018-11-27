@@ -6,6 +6,7 @@ from sockjs.tornado import SockJSRouter, SockJSConnection
 from admin_service import SightWordHandler
 from admin_service import SentenceHandler
 from admin_service import RewardHandler
+from admin_service import EncMsgHandler
 from google_assistant_services import GAActionHandler
 import json
 
@@ -31,7 +32,8 @@ def main():
         (r'/sightwords', SightWordHandler),
         (r'/sentences', SentenceHandler),
         (r'/reward', RewardHandler),
-        (r'/gaservice/command', GAActionHandler)
+        (r'/gaservice/command', GAActionHandler),
+        (r'/encmessage',EncMsgHandler)
         ], static_path=os.path.join(root,'static'), template_path=os.path.join(root,'templates')
 
     )

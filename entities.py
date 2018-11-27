@@ -216,3 +216,18 @@ class ExerciseReport(Base):
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class EncMessages(Base):
+    __tablename__ = 'enc_msg'
+    _table_args__ = {'quote':False,'extend_existing':True}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    message = Column(String)
+
+
+    def __init__(self, message):
+        self.message = message
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

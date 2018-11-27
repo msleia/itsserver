@@ -77,3 +77,8 @@ create table exercise_report (
     rewarded INTEGER,
     is_completed INTEGER
 );
+
+create table enc_msg (
+    id SERIAL PRIMARY KEY,
+    message TEXT
+)

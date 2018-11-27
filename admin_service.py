@@ -57,3 +57,20 @@ class RewardHandler(RequestHandler):
             rw_active.status = 0
             dao_obj.session.commit()
         dao_obj.put(Reward(reward['userid'],reward['message'],reward['exercise_count'], 1))
+
+
+class EncMsgHandler(RequestHandler):
+    def get(self):
+        actions = dao_obj.get_all(EncMessages)
+        data = {'messages':[act.to_dict() for act in actions]}
+        self.write(data)
+
+    """
+    payload structure = {"messages":[{"message":"You are doing awesome"}]}
+    """
+    def post(self):
+        sw = tornado.escape.json_decode(self.request.body)
+        msgs = sw["messages"]
+        for msg in msgs:
+            dao_obj.put(EncMessages(msg))
+
