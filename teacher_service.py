@@ -20,7 +20,7 @@ class RewardManager():
 
     def __init__(self, userid):
         self.userid = userid
-        self.reward = dao_obj.get_where(Reward,"userid = '{}' and stats = 1".format(userid))
+        self.reward = dao_obj.get_where(Reward,"userid = '{}' and status = 1".format(userid))
         self.has_reward = True if self.reward else False
 
     def get_reward_message(self):
