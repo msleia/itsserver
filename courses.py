@@ -142,7 +142,7 @@ class SightWordCourse(Course):
         return "What is the word that you see?"
 
     def get_mastered_words(self):
-        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid, sw.clues from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type having sum(is_identified) > 0 order by mastery desc'.format(self.userid)
+        query_word_report = 'select sum(is_identified) as mastery, sw_id, sw.name, type, wr.userid, sw.clues from word_report wr, swords sw where wr.sw_id=sw.id and wr.userid=\'{}\' group by wr.userid, sw_id, sw.name, type, sw.clues having sum(is_identified) > 0 order by mastery desc'.format(self.userid)
         cursor = dao_obj.execute_query(query_word_report)
         word_mastery_list = []
         for rec in cursor:
