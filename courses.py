@@ -186,7 +186,7 @@ class SightWordCourse(Course):
                     fc_word_list = [(mwords[-1]['word'], mwords[-1]['word_id'], mwords[-1]['clues'])] + known_words
             else:
                 windexes = random.sample(range(0,len(words)),len(mwords)-self.max_size)
-                fc_word_list += [(words[index].name, words[index].id) for index in windexes]
+                fc_word_list += [(words[index].name, words[index].id, words[index].clues) for index in windexes]
             fc = FlashCard("fc_{}_{}".format(self.userid, self.level),self.userid, "{} flash card for {}".format(self.level, self.userid))
             fc = dao_obj.put(fc)
             self.flash_card_id = fc
