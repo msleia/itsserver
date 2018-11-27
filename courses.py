@@ -180,7 +180,7 @@ class SightWordCourse(Course):
             
                 for word in words:
                     if word.name not in all_mastered_words:
-                        fc_word_list = [(word.name, word.id)] + known_words
+                        fc_word_list = [(word.name, word.id, word.clues)] + known_words
                         break
                 if len(fc_word_list) < self.max_size:
                     fc_word_list = [(mwords[-1]['word'], mwords[-1]['word_id'], mwords[-1]['clues'])] + known_words
